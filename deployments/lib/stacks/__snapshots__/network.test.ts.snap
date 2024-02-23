@@ -6,7 +6,7 @@ exports[`snapshot test 1`] = `
     "SsmStringListParameterSubnetIdsPrivateFBA47936": {
       "Properties": {
         "Description": "created by NetworkStack",
-        "Name": "/ecs-blue-green-deployment/deployments/undefined",
+        "Name": "/ecs-blue-green-deployment/deployments/subnet-ids-private",
         "Type": "StringList",
         "Value": {
           "Fn::Join": [
@@ -27,7 +27,7 @@ exports[`snapshot test 1`] = `
     "SsmStringListParameterSubnetIdsPublic4F84AA7B": {
       "Properties": {
         "Description": "created by NetworkStack",
-        "Name": "/ecs-blue-green-deployment/deployments/undefined",
+        "Name": "/ecs-blue-green-deployment/deployments/subnet-ids-public",
         "Type": "StringList",
         "Value": {
           "Fn::Join": [
@@ -48,7 +48,7 @@ exports[`snapshot test 1`] = `
     "SsmStringListParameterVpcAvailabilityZones2B63882C": {
       "Properties": {
         "Description": "created by NetworkStack",
-        "Name": "/ecs-blue-green-deployment/deployments/undefined",
+        "Name": "/ecs-blue-green-deployment/deployments/vpc-azs",
         "Type": "StringList",
         "Value": {
           "Fn::Join": [
@@ -79,7 +79,7 @@ exports[`snapshot test 1`] = `
     "SsmStringParameterVpcId8FCB0E09": {
       "Properties": {
         "Description": "created by NetworkStack",
-        "Name": "/ecs-blue-green-deployment/deployments/undefined",
+        "Name": "/ecs-blue-green-deployment/deployments/vpc-id",
         "Type": "String",
         "Value": {
           "Ref": "Vpc8378EB38",

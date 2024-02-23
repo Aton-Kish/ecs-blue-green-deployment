@@ -3,7 +3,12 @@ import { aws_ssm as ssm } from 'aws-cdk-lib'
 import type { Context } from '../types/context'
 import type { Stack } from 'aws-cdk-lib'
 
-const ssmParameterNameSuffix = {} as const
+const ssmParameterNameSuffix = {
+  VpcId: 'vpc-id',
+  VpcAvailabilityZones: 'vpc-azs',
+  SubnetIdsPublic: 'subnet-ids-public',
+  SubnetIdsPrivate: 'subnet-ids-private',
+} as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 
 export interface SsmParameterStoreProps {
