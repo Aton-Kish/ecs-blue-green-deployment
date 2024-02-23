@@ -1,14 +1,40 @@
-# Welcome to your CDK TypeScript project
+# deployments
 
-This is a blank project for CDK development with TypeScript.
+## setting up
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+```shell
+corepack enable
+corepack pnpm install
+```
 
-## Useful commands
+## bootstrapping
 
-- `npm run build` compile typescript to js
-- `npm run watch` watch for changes and compile
-- `npm run test` perform the jest unit tests
-- `npx cdk deploy` deploy this stack to your default AWS account/region
-- `npx cdk diff` compare deployed stack with current state
-- `npx cdk synth` emits the synthesized CloudFormation template
+AWS環境（アカウントとリージョンの組み合わせ）に[CDKブートストラップ](https://docs.aws.amazon.com/ja_jp/cdk/v2/guide/bootstrapping.html)をおこなっていない場合は次のコマンドを実行します:
+
+```shell
+corepack pnpm cdk bootstrap
+```
+
+## deploy
+
+### `NetworkStack`
+
+```shell
+corepack pnpm cdk synth NetworkStack
+corepack pnpm cdk diff NetworkStack
+corepack pnpm cdk deploy NetworkStack
+```
+
+## testing
+
+スナップショットを実行します:
+
+```shell
+corepack pnpm test
+```
+
+スナップショットを更新する際は次のコマンドを実行します:
+
+```shell
+corepack pnpm test -- --updateSnapshot
+```
