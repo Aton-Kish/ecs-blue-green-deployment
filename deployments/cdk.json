@@ -56,6 +56,14 @@
     "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": true,
     "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": true,
     "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": true,
-    "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": true
+    "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": true,
+
+    "serviceName": "ecs-blue-green-deployment",
+    "network": {
+      "vpcCidrBlock": "10.0.0.0/16",
+      "publicSubnetCidrBlocks": ["10.0.0.0/24", "10.0.1.0/24"],
+      "privateSubnetCidrBlocks": ["10.0.128.0/24", "10.0.129.0/24"],
+      "natGateways": 1
+    }
   }
 }
