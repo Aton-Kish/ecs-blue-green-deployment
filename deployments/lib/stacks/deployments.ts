@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib'
+import * as sqs from 'aws-cdk-lib/aws-sqs'
 import { Construct } from 'constructs'
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class DeploymentsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -9,8 +9,8 @@ export class DeploymentsStack extends cdk.Stack {
     // The code that defines your stack goes here
 
     // example resource
-    // const queue = new sqs.Queue(this, 'DeploymentsQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    const _queue = new sqs.Queue(this, 'DeploymentsQueue', {
+      visibilityTimeout: cdk.Duration.seconds(300),
+    })
   }
 }

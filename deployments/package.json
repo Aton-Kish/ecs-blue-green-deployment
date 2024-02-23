@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "test": "jest",
     "prepare": "cd .. && husky deployments/.husky",
     "lint": "run-p lint:*",
     "lint:typecheck": "tsc",
@@ -21,12 +22,6 @@
     ]
   },
   "jest": {
-    "roots": [
-      "<rootDir>/test"
-    ],
-    "testMatch": [
-      "**/*.test.ts"
-    ],
     "transform": {
       "^.+\\.tsx?$": "esbuild-jest"
     }

@@ -1,5 +1,5 @@
 {
-  "app": "node -r esbuild-register bin/deployments.ts",
+  "app": "node -r esbuild-register bin/app.ts",
   "watch": {
     "include": ["**"],
     "exclude": [
