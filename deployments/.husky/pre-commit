@@ -1,0 +1,2 @@
+cd deployments
+pnpm lint-staged
