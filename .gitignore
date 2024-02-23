@@ -131,3 +131,7 @@ dist
 
 # pnpm
 .pnpm-store/
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out

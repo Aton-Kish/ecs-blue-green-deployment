@@ -5,8 +5,8 @@
     "prepare": "cd .. && husky deployments/.husky",
     "lint": "run-p lint:*",
     "lint:typecheck": "tsc",
-    "lint:eslint": "eslint . --ignore-path .gitignore",
-    "lint:prettier": "prettier . --check",
+    "lint:eslint": "eslint . --ignore-path ../.gitignore",
+    "lint:prettier": "prettier . --ignore-path ../.gitignore --check",
     "fix": "run-s fix:eslint fix:prettier",
     "fix:eslint": "yarn lint:eslint --fix",
     "fix:prettier": "yarn lint:prettier --write"
