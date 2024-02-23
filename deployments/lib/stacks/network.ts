@@ -1,4 +1,5 @@
 import { Stack, aws_ec2 as ec2 } from 'aws-cdk-lib'
+import { NagSuppressions } from 'cdk-nag'
 
 import { SsmParameterStore } from '../resources/ssm-parameter-store'
 
@@ -49,6 +50,9 @@ export class NetworkStack extends Stack {
         props.context.network.privateSubnetCidrBlocks[i],
       )
     }
+    NagSuppressions.addResourceSuppressions(vpc, [
+      { id: 'AwsSolutions-VPC7', reason: 'vpc flow logs is not required' },
+    ])
 
     this.#ssmParameterStore.createStringParameter('VpcId', vpc.vpcId)
     this.#ssmParameterStore.createStringListParameter(

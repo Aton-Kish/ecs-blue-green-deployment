@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot test 1`] = `
+exports[`NetworkStack snapshot test 1`] = `
 {
   "Resources": {
     "SsmStringListParameterSubnetIdsPrivateFBA47936": {
@@ -88,6 +88,16 @@ exports[`snapshot test 1`] = `
       "Type": "AWS::SSM::Parameter",
     },
     "Vpc8378EB38": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-VPC7",
+              "reason": "vpc flow logs is not required",
+            },
+          ],
+        },
+      },
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": true,
