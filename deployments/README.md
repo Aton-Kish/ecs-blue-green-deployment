@@ -25,6 +25,14 @@ corepack pnpm cdk diff NetworkStack
 corepack pnpm cdk deploy NetworkStack
 ```
 
+### `LoadBalancerStack`
+
+```shell
+corepack pnpm cdk synth LoadBalancerStack
+corepack pnpm cdk diff LoadBalancerStack
+corepack pnpm cdk deploy LoadBalancerStack
+```
+
 ## testing
 
 スナップショットを実行します:
