@@ -3,6 +3,12 @@
 exports[`NetworkStack snapshot test 1`] = `
 {
   "Resources": {
+    "Route53HostedZone7EAAD2FD": {
+      "Properties": {
+        "Name": "example.com.",
+      },
+      "Type": "AWS::Route53::HostedZone",
+    },
     "SsmStringListParameterSubnetIdsPrivateFBA47936": {
       "Properties": {
         "Description": "created by NetworkStack",
@@ -72,6 +78,17 @@ exports[`NetworkStack snapshot test 1`] = `
               },
             ],
           ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterRoute53HostedZoneIdB8601E10": {
+      "Properties": {
+        "Description": "created by NetworkStack",
+        "Name": "/ecs-blue-green-deployment/deployments/route53-hosted-zone-id",
+        "Type": "String",
+        "Value": {
+          "Ref": "Route53HostedZone7EAAD2FD",
         },
       },
       "Type": "AWS::SSM::Parameter",

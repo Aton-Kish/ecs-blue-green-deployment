@@ -15,6 +15,7 @@ Aspects.of(app).add(new AwsSolutionsChecks())
 const context: Context = {
   serviceName: app.node.getContext('serviceName'),
   network: app.node.getContext('network'),
+  domainName: app.node.getContext('domainName'),
 }
 
 new NetworkStack(app, 'NetworkStack', {

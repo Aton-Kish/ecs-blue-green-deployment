@@ -64,6 +64,9 @@
       "publicSubnetCidrBlocks": ["10.0.0.0/24", "10.0.1.0/24"],
       "privateSubnetCidrBlocks": ["10.0.128.0/24", "10.0.129.0/24"],
       "natGateways": 1
+    },
+    "domainName": {
+      "hostedZone": "example.com"
     }
   }
 }

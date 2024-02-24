@@ -8,6 +8,7 @@ const ssmParameterNameSuffix = {
   VpcAvailabilityZones: 'vpc-azs',
   SubnetIdsPublic: 'subnet-ids-public',
   SubnetIdsPrivate: 'subnet-ids-private',
+  Route53HostedZoneId: 'route53-hosted-zone-id',
 } as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 

@@ -1,4 +1,4 @@
-import { Stack, aws_ec2 as ec2 } from 'aws-cdk-lib'
+import { Stack, aws_route53 as route53, aws_ec2 as ec2 } from 'aws-cdk-lib'
 import { NagSuppressions } from 'cdk-nag'
 
 import { SsmParameterStore } from '../resources/ssm-parameter-store'
@@ -19,6 +19,9 @@ export class NetworkStack extends Stack {
       props.context.serviceName,
     )
 
+    /*
+     * VPC
+     */
     const vpc = new ec2.Vpc(this, 'Vpc', {
       vpcName: `${props.context.serviceName}-vpc`,
       ipAddresses: ec2.IpAddresses.cidr(props.context.network.vpcCidrBlock),
@@ -66,6 +69,22 @@ export class NetworkStack extends Stack {
     this.#ssmParameterStore.createStringListParameter(
       'SubnetIdsPrivate',
       vpc.privateSubnets.map((subnet) => subnet.subnetId),
+    )
+
+    /*
+     * Route53
+     */
+    const route53HostedZone = new route53.HostedZone(
+      this,
+      'Route53HostedZone',
+      {
+        zoneName: props.context.domainName.hostedZone,
+      },
+    )
+
+    this.#ssmParameterStore.createStringParameter(
+      'Route53HostedZoneId',
+      route53HostedZone.hostedZoneId,
     )
   }
 }
