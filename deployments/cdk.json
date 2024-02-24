@@ -66,7 +66,8 @@
       "natGateways": 1
     },
     "domainName": {
-      "hostedZone": "example.com"
+      "hostedZone": "example.com",
+      "application": "app.example.com"
     },
     "application": {
       "port": 80

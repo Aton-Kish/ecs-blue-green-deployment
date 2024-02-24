@@ -5,6 +5,7 @@ import 'source-map-support/register'
 import { App, Aspects, CliCredentialsStackSynthesizer } from 'aws-cdk-lib'
 import { AwsSolutionsChecks } from 'cdk-nag'
 
+import { LoadBalancerStack } from '../lib/stacks/load-balancer'
 import { NetworkStack } from '../lib/stacks/network'
 
 import type { Context } from '../lib/types/context'
@@ -21,6 +22,12 @@ const context: Context = {
 
 new NetworkStack(app, 'NetworkStack', {
   stackName: `${context.serviceName}-network-stack`,
+  context,
+  synthesizer: new CliCredentialsStackSynthesizer(),
+})
+
+new LoadBalancerStack(app, 'LoadBalancerStack', {
+  stackName: `${context.serviceName}-load-balancer-stack`,
   context,
   synthesizer: new CliCredentialsStackSynthesizer(),
 })

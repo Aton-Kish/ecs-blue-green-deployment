@@ -1,0 +1,314 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadBalancerStack snapshot test 1`] = `
+{
+  "Parameters": {
+    "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzoneidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/route53-hosted-zone-id",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzonenameC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/route53-hosted-zone-name",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentssecuritygroupidalbC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/security-group-id-alb",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentssubnetidsprivateC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/subnet-ids-private",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentssubnetidspublicC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/subnet-ids-public",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsvpcazsC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/vpc-azs",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsvpcidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/vpc-id",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AcmCertificate49D3B5AF": {
+      "Properties": {
+        "DomainName": "*.example.com",
+        "DomainValidationOptions": [
+          {
+            "DomainName": "*.example.com",
+            "HostedZoneId": {
+              "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzoneidC96584B6F00A464EAD1953AFF4B05118Parameter",
+            },
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "LoadBalancerStack/AcmCertificate",
+          },
+        ],
+        "ValidationMethod": "DNS",
+      },
+      "Type": "AWS::CertificateManager::Certificate",
+    },
+    "Alb16C2F182": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-ELB2",
+              "reason": "alb access logging is not required",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "IpAddressType": "ipv4",
+        "LoadBalancerAttributes": [
+          {
+            "Key": "deletion_protection.enabled",
+            "Value": "false",
+          },
+        ],
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentssecuritygroupidalbC96584B6F00A464EAD1953AFF4B05118Parameter",
+          },
+        ],
+        "Subnets": {
+          "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentssubnetidspublicC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "Type": "application",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+    },
+    "AlbAlbListenerProd2E82D0AA": {
+      "Properties": {
+        "Certificates": [
+          {
+            "CertificateArn": {
+              "Ref": "AcmCertificate49D3B5AF",
+            },
+          },
+        ],
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "AlbTargetGroupBlueE1CC74A2",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": {
+          "Ref": "Alb16C2F182",
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "AlbAlbListenerTest4DFE48AD": {
+      "Properties": {
+        "Certificates": [
+          {
+            "CertificateArn": {
+              "Ref": "AcmCertificate49D3B5AF",
+            },
+          },
+        ],
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "AlbTargetGroupGreen1B4DF93A",
+            },
+            "Type": "forward",
+          },
+        ],
+        "LoadBalancerArn": {
+          "Ref": "Alb16C2F182",
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+    },
+    "AlbTargetGroupBlueE1CC74A2": {
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "ProtocolVersion": "HTTP1",
+        "TargetGroupAttributes": [
+          {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "ip",
+        "VpcId": {
+          "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsvpcidC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "AlbTargetGroupGreen1B4DF93A": {
+      "Properties": {
+        "Port": 80,
+        "Protocol": "HTTP",
+        "ProtocolVersion": "HTTP1",
+        "TargetGroupAttributes": [
+          {
+            "Key": "stickiness.enabled",
+            "Value": "false",
+          },
+        ],
+        "TargetType": "ip",
+        "VpcId": {
+          "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsvpcidC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+      },
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+    },
+    "Route53RecordSetF54F57C0": {
+      "Properties": {
+        "AliasTarget": {
+          "DNSName": {
+            "Fn::Join": [
+              "",
+              [
+                "dualstack.",
+                {
+                  "Fn::GetAtt": [
+                    "Alb16C2F182",
+                    "DNSName",
+                  ],
+                },
+              ],
+            ],
+          },
+          "HostedZoneId": {
+            "Fn::GetAtt": [
+              "Alb16C2F182",
+              "CanonicalHostedZoneID",
+            ],
+          },
+        },
+        "HostedZoneId": {
+          "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzoneidC96584B6F00A464EAD1953AFF4B05118Parameter",
+        },
+        "Name": {
+          "Fn::Join": [
+            "",
+            [
+              "app.example.com.",
+              {
+                "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzonenameC96584B6F00A464EAD1953AFF4B05118Parameter",
+              },
+              ".",
+            ],
+          ],
+        },
+        "Type": "A",
+      },
+      "Type": "AWS::Route53::RecordSet",
+    },
+    "SsmStringParameterAcmCertificateArnAC150176": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/acm-certificate-arn",
+        "Type": "String",
+        "Value": {
+          "Ref": "AcmCertificate49D3B5AF",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbArnB1574FF0": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-arn",
+        "Type": "String",
+        "Value": {
+          "Ref": "Alb16C2F182",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbCanonicalHostedZoneIdAB64C002": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-canonical-hosted-zone-id",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "Alb16C2F182",
+            "CanonicalHostedZoneID",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbDnsNameCD818021": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-dns-name",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "Alb16C2F182",
+            "DNSName",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbListenerArnProd0D941720": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-listener-arn-prod",
+        "Type": "String",
+        "Value": {
+          "Ref": "AlbAlbListenerProd2E82D0AA",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbListenerArnTest299BEDAA": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-listener-arn-test",
+        "Type": "String",
+        "Value": {
+          "Ref": "AlbAlbListenerTest4DFE48AD",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbTargetGroupArnBlue33BB45EE": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-target-group-arn-blue",
+        "Type": "String",
+        "Value": {
+          "Ref": "AlbTargetGroupBlueE1CC74A2",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterAlbTargetGroupArnGreen15A428B1": {
+      "Properties": {
+        "Description": "created by LoadBalancerStack",
+        "Name": "/ecs-blue-green-deployment/deployments/alb-target-group-arn-green",
+        "Type": "String",
+        "Value": {
+          "Ref": "AlbTargetGroupGreen1B4DF93A",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+}
+`;

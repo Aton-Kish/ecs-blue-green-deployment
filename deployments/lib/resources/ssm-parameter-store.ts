@@ -12,6 +12,14 @@ const ssmParameterNameSuffix = {
   SecurityGroupIdEcs: 'security-group-id-ecs',
   Route53HostedZoneId: 'route53-hosted-zone-id',
   Route53HostedZoneName: 'route53-hosted-zone-name',
+  AcmCertificateArn: 'acm-certificate-arn',
+  AlbArn: 'alb-arn',
+  AlbCanonicalHostedZoneId: 'alb-canonical-hosted-zone-id',
+  AlbDnsName: 'alb-dns-name',
+  AlbListenerArnProd: 'alb-listener-arn-prod',
+  AlbListenerArnTest: 'alb-listener-arn-test',
+  AlbTargetGroupArnBlue: 'alb-target-group-arn-blue',
+  AlbTargetGroupArnGreen: 'alb-target-group-arn-green',
 } as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 

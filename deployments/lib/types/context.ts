@@ -14,6 +14,7 @@ export interface ContextNetwork {
 
 export interface ContextDomainName {
   hostedZone: string
+  application: string
 }
 
 export interface ContextApplication {
