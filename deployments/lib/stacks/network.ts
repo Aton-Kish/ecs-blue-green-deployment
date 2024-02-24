@@ -53,6 +53,7 @@ export class NetworkStack extends Stack {
         props.context.network.privateSubnetCidrBlocks[i],
       )
     }
+
     NagSuppressions.addResourceSuppressions(vpc, [
       { id: 'AwsSolutions-VPC7', reason: 'vpc flow logs is not required' },
     ])
@@ -69,6 +70,66 @@ export class NetworkStack extends Stack {
     this.#ssmParameterStore.createStringListParameter(
       'SubnetIdsPrivate',
       vpc.privateSubnets.map((subnet) => subnet.subnetId),
+    )
+
+    /*
+     * Security Group
+     */
+    const securityGroupAlb = new ec2.SecurityGroup(this, 'SecurityGroupAlb', {
+      vpc: vpc,
+      allowAllOutbound: false,
+    })
+    const securityGroupEcs = new ec2.SecurityGroup(this, 'SecurityGroupEcs', {
+      vpc: vpc,
+      allowAllOutbound: false,
+    })
+
+    securityGroupAlb.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(443),
+      'allow HTTPS access from internet',
+    )
+    securityGroupAlb.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(8443),
+      'allow test access from internet',
+    )
+    securityGroupAlb.addEgressRule(
+      ec2.Peer.securityGroupId(securityGroupEcs.securityGroupId),
+      ec2.Port.tcp(props.context.application.port),
+      'allow application access to ECS',
+    )
+
+    // NOTE: avoid a circular reference
+    new ec2.CfnSecurityGroupIngress(
+      this,
+      'SecurityGroupEcsIngressApplicationAccessFromAlb',
+      {
+        groupId: securityGroupEcs.securityGroupId,
+        ipProtocol: 'tcp',
+        fromPort: props.context.application.port,
+        toPort: props.context.application.port,
+        sourceSecurityGroupId: securityGroupAlb.securityGroupId,
+        description: 'allow application access from ALB',
+      },
+    )
+    securityGroupEcs.addEgressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(443),
+      'allow HTTPS access to internet',
+    )
+
+    NagSuppressions.addResourceSuppressions(securityGroupAlb, [
+      { id: 'AwsSolutions-EC23', reason: 'allow HTTPS access from internet' },
+    ])
+
+    this.#ssmParameterStore.createStringParameter(
+      'SecurityGroupIdAlb',
+      securityGroupAlb.securityGroupId,
+    )
+    this.#ssmParameterStore.createStringParameter(
+      'SecurityGroupIdEcs',
+      securityGroupEcs.securityGroupId,
     )
 
     /*

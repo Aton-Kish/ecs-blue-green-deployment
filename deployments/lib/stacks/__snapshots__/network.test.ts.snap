@@ -9,6 +9,94 @@ exports[`NetworkStack snapshot test 1`] = `
       },
       "Type": "AWS::Route53::HostedZone",
     },
+    "SecurityGroupAlbD38A08FF": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-EC23",
+              "reason": "allow HTTPS access from internet",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "GroupDescription": "NetworkStack/SecurityGroupAlb",
+        "SecurityGroupEgress": [
+          {
+            "Description": "allow application access to ECS",
+            "DestinationSecurityGroupId": {
+              "Fn::GetAtt": [
+                "SecurityGroupEcs38CBF5D4",
+                "GroupId",
+              ],
+            },
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80,
+          },
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "allow HTTPS access from internet",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "allow test access from internet",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443,
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "SecurityGroupEcs38CBF5D4": {
+      "Properties": {
+        "GroupDescription": "NetworkStack/SecurityGroupEcs",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "allow HTTPS access to internet",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443,
+          },
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38",
+        },
+      },
+      "Type": "AWS::EC2::SecurityGroup",
+    },
+    "SecurityGroupEcsIngressApplicationAccessFromAlb": {
+      "Properties": {
+        "Description": "allow application access from ALB",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "SecurityGroupEcs38CBF5D4",
+            "GroupId",
+          ],
+        },
+        "IpProtocol": "tcp",
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "SecurityGroupAlbD38A08FF",
+            "GroupId",
+          ],
+        },
+        "ToPort": 80,
+      },
+      "Type": "AWS::EC2::SecurityGroupIngress",
+    },
     "SsmStringListParameterSubnetIdsPrivateFBA47936": {
       "Properties": {
         "Description": "created by NetworkStack",
@@ -89,6 +177,34 @@ exports[`NetworkStack snapshot test 1`] = `
         "Type": "String",
         "Value": {
           "Ref": "Route53HostedZone7EAAD2FD",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterSecurityGroupIdAlb719E8500": {
+      "Properties": {
+        "Description": "created by NetworkStack",
+        "Name": "/ecs-blue-green-deployment/deployments/security-group-id-alb",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "SecurityGroupAlbD38A08FF",
+            "GroupId",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterSecurityGroupIdEcsBB8239E6": {
+      "Properties": {
+        "Description": "created by NetworkStack",
+        "Name": "/ecs-blue-green-deployment/deployments/security-group-id-ecs",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "SecurityGroupEcs38CBF5D4",
+            "GroupId",
+          ],
         },
       },
       "Type": "AWS::SSM::Parameter",

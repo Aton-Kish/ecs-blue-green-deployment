@@ -2,6 +2,7 @@ export interface Context {
   serviceName: string
   network: ContextNetwork
   domainName: ContextDomainName
+  application: ContextApplication
 }
 
 export interface ContextNetwork {
@@ -13,4 +14,8 @@ export interface ContextNetwork {
 
 export interface ContextDomainName {
   hostedZone: string
+}
+
+export interface ContextApplication {
+  port: number
 }

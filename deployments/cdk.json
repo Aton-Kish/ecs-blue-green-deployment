@@ -67,6 +67,9 @@
     },
     "domainName": {
       "hostedZone": "example.com"
+    },
+    "application": {
+      "port": 80
     }
   }
 }

@@ -16,6 +16,7 @@ const context: Context = {
   serviceName: app.node.getContext('serviceName'),
   network: app.node.getContext('network'),
   domainName: app.node.getContext('domainName'),
+  application: app.node.getContext('application'),
 }
 
 new NetworkStack(app, 'NetworkStack', {
