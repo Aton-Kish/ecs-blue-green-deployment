@@ -11,6 +11,7 @@ const ssmParameterNameSuffix = {
   SecurityGroupIdAlb: 'security-group-id-alb',
   SecurityGroupIdEcs: 'security-group-id-ecs',
   Route53HostedZoneId: 'route53-hosted-zone-id',
+  Route53HostedZoneName: 'route53-hosted-zone-name',
 } as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 

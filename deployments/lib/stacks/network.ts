@@ -1,4 +1,4 @@
-import { Stack, aws_route53 as route53, aws_ec2 as ec2 } from 'aws-cdk-lib'
+import { Stack, aws_ec2 as ec2, aws_route53 as route53 } from 'aws-cdk-lib'
 import { NagSuppressions } from 'cdk-nag'
 
 import { SsmParameterStore } from '../resources/ssm-parameter-store'
@@ -146,6 +146,10 @@ export class NetworkStack extends Stack {
     this.#ssmParameterStore.createStringParameter(
       'Route53HostedZoneId',
       route53HostedZone.hostedZoneId,
+    )
+    this.#ssmParameterStore.createStringParameter(
+      'Route53HostedZoneName',
+      route53HostedZone.zoneName,
     )
   }
 }

@@ -181,6 +181,15 @@ exports[`NetworkStack snapshot test 1`] = `
       },
       "Type": "AWS::SSM::Parameter",
     },
+    "SsmStringParameterRoute53HostedZoneNameA378183E": {
+      "Properties": {
+        "Description": "created by NetworkStack",
+        "Name": "/ecs-blue-green-deployment/deployments/route53-hosted-zone-name",
+        "Type": "String",
+        "Value": "example.com",
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
     "SsmStringParameterSecurityGroupIdAlb719E8500": {
       "Properties": {
         "Description": "created by NetworkStack",
