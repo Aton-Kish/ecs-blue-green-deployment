@@ -160,7 +160,7 @@ export class LoadBalancerStack extends Stack {
      */
     new route53.RecordSet(this, 'Route53RecordSet', {
       zone: route53HostedZone,
-      recordName: props.context.domainName.application,
+      recordName: `${props.context.domainName.application}.`,
       recordType: route53.RecordType.A,
       target: route53.RecordTarget.fromAlias(
         new route53Targets.LoadBalancerTarget(alb),

@@ -199,18 +199,7 @@ exports[`LoadBalancerStack snapshot test 1`] = `
         "HostedZoneId": {
           "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzoneidC96584B6F00A464EAD1953AFF4B05118Parameter",
         },
-        "Name": {
-          "Fn::Join": [
-            "",
-            [
-              "app.example.com.",
-              {
-                "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsroute53hostedzonenameC96584B6F00A464EAD1953AFF4B05118Parameter",
-              },
-              ".",
-            ],
-          ],
-        },
+        "Name": "app.example.com.",
         "Type": "A",
       },
       "Type": "AWS::Route53::RecordSet",
