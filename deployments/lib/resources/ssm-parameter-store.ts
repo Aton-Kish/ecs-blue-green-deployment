@@ -20,6 +20,12 @@ const ssmParameterNameSuffix = {
   AlbListenerArnTest: 'alb-listener-arn-test',
   AlbTargetGroupArnBlue: 'alb-target-group-arn-blue',
   AlbTargetGroupArnGreen: 'alb-target-group-arn-green',
+  EcrRepositoryUri: 'ecr-repository-uri',
+  EcsClusterName: 'ecs-cluster-name',
+  EcsServiceNameApplication: 'ecs-service-name-application',
+  IamRoleArnEcsTask: 'iam-role-arn-ecs-task',
+  IamRoleArnEcsTaskExecution: 'iam-role-arn-ecs-task-execution',
+  LogGroupNameApplication: 'log-group-name-application',
 } as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 

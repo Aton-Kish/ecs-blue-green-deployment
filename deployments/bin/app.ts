@@ -5,6 +5,7 @@ import 'source-map-support/register'
 import { App, Aspects, CliCredentialsStackSynthesizer } from 'aws-cdk-lib'
 import { AwsSolutionsChecks } from 'cdk-nag'
 
+import { EcsSetupStack } from '../lib/stacks/ecs-setup'
 import { LoadBalancerStack } from '../lib/stacks/load-balancer'
 import { NetworkStack } from '../lib/stacks/network'
 
@@ -28,6 +29,12 @@ new NetworkStack(app, 'NetworkStack', {
 
 new LoadBalancerStack(app, 'LoadBalancerStack', {
   stackName: `${context.serviceName}-load-balancer-stack`,
+  context,
+  synthesizer: new CliCredentialsStackSynthesizer(),
+})
+
+new EcsSetupStack(app, 'EcsSetupStack', {
+  stackName: `${context.serviceName}-ecs-setup-stack`,
   context,
   synthesizer: new CliCredentialsStackSynthesizer(),
 })
