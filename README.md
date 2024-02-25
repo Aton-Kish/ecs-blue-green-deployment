@@ -30,16 +30,13 @@ corepack pnpm cdk diff NetworkStack
 corepack pnpm cdk deploy NetworkStack
 ```
 
-#### DNS委任
+#### DNSの委任を完了する
 
 DNS委任元にNSレコードを登録してください。登録する値は次のコマンドで取得できます:
 
 ```shell
 SERVICE_NAME=$(cat cdk.json | jq -r .context.serviceName)
-aws ssm get-parameter \
-    --name "/${SERVICE_NAME}/deployments/route53-hosted-zone-name-servers" \
-    --query Parameter.Value \
-    --output text
+aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/route53-hosted-zone-name-servers"
 ```
 
 ### `LoadBalancerStack`
@@ -56,6 +53,22 @@ corepack pnpm cdk deploy LoadBalancerStack
 corepack pnpm cdk synth EcsSetupStack
 corepack pnpm cdk diff EcsSetupStack
 corepack pnpm cdk deploy EcsSetupStack
+```
+
+#### 最初のイメージを登録する
+
+```shell
+SERVICE_NAME=$(cat cdk.json | jq -r .context.serviceName)
+ECR_REPOSITORY_URI=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecr-repository-uri")
+ECR_HOSTNAME="${ECR_REPOSITORY_URI%/*}"
+
+COLOR="blue"
+DATE="$(date --utc "+%Y-%m-%dT%H:%M:%SZ")"
+IMAGE_TAG="latest"
+
+docker image build --tag "${ECR_REPOSITORY_URI}:${IMAGE_TAG}" --build-arg COLOR="${COLOR}" --build-arg DATE="${DATE}" .
+aws ecr get-login-password | docker login --username AWS --password-stdin "${ECR_HOSTNAME}"
+docker image push "${ECR_REPOSITORY_URI}:${IMAGE_TAG}"
 ```
 
 ## testing
