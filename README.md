@@ -2,6 +2,11 @@
 
 ## setting up
 
+Requirements:
+
+- [Node.js](https://nodejs.org/) (v20.11.0 or higher)
+- [ecspresso](https://github.com/kayac/ecspresso) (v2.3.2 or higher)
+
 ```shell
 corepack enable
 corepack pnpm install
@@ -23,6 +28,18 @@ corepack pnpm cdk bootstrap
 corepack pnpm cdk synth NetworkStack
 corepack pnpm cdk diff NetworkStack
 corepack pnpm cdk deploy NetworkStack
+```
+
+#### DNS委任
+
+DNS委任元にNSレコードを登録してください。登録する値は次のコマンドで取得できます:
+
+```shell
+SERVICE_NAME=$(cat cdk.json | jq -r .context.serviceName)
+aws ssm get-parameter \
+    --name "/${SERVICE_NAME}/deployments/route53-hosted-zone-name-servers" \
+    --query Parameter.Value \
+    --output text
 ```
 
 ### `LoadBalancerStack`

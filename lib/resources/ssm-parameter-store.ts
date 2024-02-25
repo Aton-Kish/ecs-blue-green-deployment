@@ -12,6 +12,7 @@ const ssmParameterNameSuffix = {
   SecurityGroupIdEcs: 'security-group-id-ecs',
   Route53HostedZoneId: 'route53-hosted-zone-id',
   Route53HostedZoneName: 'route53-hosted-zone-name',
+  Route53HostedZoneNameServers: 'route53-hosted-zone-name-servers',
   AcmCertificateArn: 'acm-certificate-arn',
   AlbArn: 'alb-arn',
   AlbCanonicalHostedZoneId: 'alb-canonical-hosted-zone-id',

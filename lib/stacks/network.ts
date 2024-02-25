@@ -1,3 +1,5 @@
+import assert from 'assert'
+
 import { Stack, aws_ec2 as ec2, aws_route53 as route53 } from 'aws-cdk-lib'
 import { NagSuppressions } from 'cdk-nag'
 
@@ -142,6 +144,7 @@ export class NetworkStack extends Stack {
         zoneName: props.context.domainName.hostedZone,
       },
     )
+    assert(route53HostedZone.hostedZoneNameServers != null)
 
     this.#ssmParameterStore.createStringParameter(
       'Route53HostedZoneId',
@@ -150,6 +153,10 @@ export class NetworkStack extends Stack {
     this.#ssmParameterStore.createStringParameter(
       'Route53HostedZoneName',
       route53HostedZone.zoneName,
+    )
+    this.#ssmParameterStore.createStringListParameter(
+      'Route53HostedZoneNameServers',
+      route53HostedZone.hostedZoneNameServers,
     )
   }
 }

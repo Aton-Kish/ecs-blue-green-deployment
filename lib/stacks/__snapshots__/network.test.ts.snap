@@ -97,6 +97,25 @@ exports[`NetworkStack snapshot test 1`] = `
       },
       "Type": "AWS::EC2::SecurityGroupIngress",
     },
+    "SsmStringListParameterRoute53HostedZoneNameServers8D92B17D": {
+      "Properties": {
+        "Description": "created by NetworkStack",
+        "Name": "/ecs-blue-green-deployment/deployments/route53-hosted-zone-name-servers",
+        "Type": "StringList",
+        "Value": {
+          "Fn::Join": [
+            ",",
+            {
+              "Fn::GetAtt": [
+                "Route53HostedZone7EAAD2FD",
+                "NameServers",
+              ],
+            },
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
     "SsmStringListParameterSubnetIdsPrivateFBA47936": {
       "Properties": {
         "Description": "created by NetworkStack",
