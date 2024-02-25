@@ -3,7 +3,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "test": "jest",
-    "prepare": "cd .. && husky deployments/.husky",
+    "prepare": "husky",
     "lint": "run-p lint:*",
     "lint:typecheck": "tsc",
     "lint:eslint": "eslint . --ignore-path ../.gitignore",
