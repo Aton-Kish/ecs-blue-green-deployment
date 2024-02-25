@@ -1,6 +1,6 @@
 # ECS Blue/Green deployment
 
-## setting up
+## セットアップ
 
 Requirements:
 
@@ -12,7 +12,9 @@ corepack enable
 corepack pnpm install
 ```
 
-## bootstrapping
+## 環境構築
+
+### CDKブートストラッピング
 
 AWS環境（アカウントとリージョンの組み合わせ）に[CDKブートストラップ](https://docs.aws.amazon.com/ja_jp/cdk/v2/guide/bootstrapping.html)をおこなっていない場合は次のコマンドを実行します:
 
@@ -20,9 +22,7 @@ AWS環境（アカウントとリージョンの組み合わせ）に[CDKブー�
 corepack pnpm cdk bootstrap
 ```
 
-## deploy
-
-### `NetworkStack`
+### CDKで`NetworkStack`をデプロイする
 
 ```shell
 corepack pnpm cdk synth NetworkStack
@@ -39,7 +39,7 @@ SERVICE_NAME=$(cat cdk.json | jq -r .context.serviceName)
 aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/route53-hosted-zone-name-servers"
 ```
 
-### `LoadBalancerStack`
+### CDKで`LoadBalancerStack`をデプロイする
 
 ```shell
 corepack pnpm cdk synth LoadBalancerStack
@@ -47,7 +47,7 @@ corepack pnpm cdk diff LoadBalancerStack
 corepack pnpm cdk deploy LoadBalancerStack
 ```
 
-### `EcsSetupStack`
+### CDKで`EcsSetupStack`をデプロイする
 
 ```shell
 corepack pnpm cdk synth EcsSetupStack
@@ -55,7 +55,7 @@ corepack pnpm cdk diff EcsSetupStack
 corepack pnpm cdk deploy EcsSetupStack
 ```
 
-#### 最初のイメージを登録する
+#### ECRに最初のイメージを登録する
 
 ```shell
 SERVICE_NAME=$(cat cdk.json | jq -r .context.serviceName)
@@ -69,6 +69,27 @@ IMAGE_TAG="latest"
 docker image build --tag "${ECR_REPOSITORY_URI}:${IMAGE_TAG}" --build-arg COLOR="${COLOR}" --build-arg DATE="${DATE}" .
 aws ecr get-login-password | docker login --username AWS --password-stdin "${ECR_HOSTNAME}"
 docker image push "${ECR_REPOSITORY_URI}:${IMAGE_TAG}"
+```
+
+### ecspressoでECSサービスをデプロイする
+
+```shell
+export ECSPRESSO_AWS_REGION=$(aws configure get region)
+export ECSPRESSO_ECS_CLUSTER_NAME=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecs-cluster-name")
+export ECSPRESSO_ECS_SERVICE_NAME=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecs-service-name-application")
+export ECSPRESSO_IMAGE_TAG="latest"
+
+ecspresso --config ecspresso/ecspresso.yaml deploy --dry-run
+ecspresso --config ecspresso/ecspresso.yaml deploy
+```
+
+環境変数を削除する場合は以下のコマンドを実行します:
+
+```shell
+unset ECSPRESSO_AWS_REGION
+unset ECSPRESSO_ECS_CLUSTER_NAME
+unset ECSPRESSO_ECS_SERVICE_NAME
+unset ECSPRESSO_IMAGE_TAG
 ```
 
 ## testing
