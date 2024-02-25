@@ -33,6 +33,14 @@ corepack pnpm cdk diff LoadBalancerStack
 corepack pnpm cdk deploy LoadBalancerStack
 ```
 
+### `EcsSetupStack`
+
+```shell
+corepack pnpm cdk synth EcsSetupStack
+corepack pnpm cdk diff EcsSetupStack
+corepack pnpm cdk deploy EcsSetupStack
+```
+
 ## testing
 
 スナップショットを実行します:
