@@ -71,14 +71,14 @@ export class SsmParameterStore {
     )
   }
 
-  StringParameter(id: SsmParameterId) {
+  stringParameter(id: SsmParameterId) {
     return ssm.StringParameter.valueForTypedStringParameterV2(
       this.#stack,
       this.#parameterName(id),
     )
   }
 
-  StringListParameter(id: SsmParameterId) {
+  stringListParameter(id: SsmParameterId) {
     return ssm.StringListParameter.valueForTypedListParameter(
       this.#stack,
       this.#parameterName(id),

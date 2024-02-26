@@ -29,10 +29,10 @@ export class LoadBalancerStack extends Stack {
     /*
      * ACM
      */
-    const route53HostedZoneId = this.#ssmParameterStore.StringParameter(
+    const route53HostedZoneId = this.#ssmParameterStore.stringParameter(
       'Route53HostedZoneId',
     )
-    const route53HostedZoneName = this.#ssmParameterStore.StringParameter(
+    const route53HostedZoneName = this.#ssmParameterStore.stringParameter(
       'Route53HostedZoneName',
     )
     const route53HostedZone = route53.HostedZone.fromHostedZoneAttributes(
@@ -57,14 +57,14 @@ export class LoadBalancerStack extends Stack {
     /*
      * ALB
      */
-    const vpcId = this.#ssmParameterStore.StringParameter('VpcId')
-    const vpcAvailabilityZones = this.#ssmParameterStore.StringListParameter(
+    const vpcId = this.#ssmParameterStore.stringParameter('VpcId')
+    const vpcAvailabilityZones = this.#ssmParameterStore.stringListParameter(
       'VpcAvailabilityZones',
     )
     const subnetIdsPublic =
-      this.#ssmParameterStore.StringListParameter('SubnetIdsPublic')
+      this.#ssmParameterStore.stringListParameter('SubnetIdsPublic')
     const subnetIdsPrivate =
-      this.#ssmParameterStore.StringListParameter('SubnetIdsPrivate')
+      this.#ssmParameterStore.stringListParameter('SubnetIdsPrivate')
     const vpc = ec2.Vpc.fromVpcAttributes(this, 'Vpc', {
       vpcId: vpcId,
       availabilityZones: vpcAvailabilityZones,
@@ -73,7 +73,7 @@ export class LoadBalancerStack extends Stack {
     })
 
     const securityGroupIdAlb =
-      this.#ssmParameterStore.StringParameter('SecurityGroupIdAlb')
+      this.#ssmParameterStore.stringParameter('SecurityGroupIdAlb')
     const securityGroupAlb = ec2.SecurityGroup.fromSecurityGroupId(
       this,
       'SecurityGroupAlb',

@@ -42,14 +42,14 @@ export class EcsSetupStack extends Stack {
     /*
      * ECS
      */
-    const vpcId = this.#ssmParameterStore.StringParameter('VpcId')
-    const vpcAvailabilityZones = this.#ssmParameterStore.StringListParameter(
+    const vpcId = this.#ssmParameterStore.stringParameter('VpcId')
+    const vpcAvailabilityZones = this.#ssmParameterStore.stringListParameter(
       'VpcAvailabilityZones',
     )
     const subnetIdsPublic =
-      this.#ssmParameterStore.StringListParameter('SubnetIdsPublic')
+      this.#ssmParameterStore.stringListParameter('SubnetIdsPublic')
     const subnetIdsPrivate =
-      this.#ssmParameterStore.StringListParameter('SubnetIdsPrivate')
+      this.#ssmParameterStore.stringListParameter('SubnetIdsPrivate')
     const vpc = ec2.Vpc.fromVpcAttributes(this, 'Vpc', {
       vpcId: vpcId,
       availabilityZones: vpcAvailabilityZones,
