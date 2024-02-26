@@ -92,6 +92,14 @@ unset ECSPRESSO_ECS_SERVICE_NAME
 unset ECSPRESSO_IMAGE_TAG
 ```
 
+### CDKで`EcsAutoScalingStack`をデプロイする
+
+```shell
+corepack pnpm cdk synth EcsAutoScalingStack
+corepack pnpm cdk diff EcsAutoScalingStack
+corepack pnpm cdk deploy EcsAutoScalingStack
+```
+
 ## testing
 
 スナップショットを実行します:
