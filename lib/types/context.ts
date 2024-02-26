@@ -19,4 +19,11 @@ export interface ContextDomainName {
 
 export interface ContextApplication {
   port: number
+  autoScaling: ContextApplicationAutoScaling
+}
+
+export interface ContextApplicationAutoScaling {
+  minCapacity: number
+  maxCapacity: number
+  cpuTargetValue: number
 }

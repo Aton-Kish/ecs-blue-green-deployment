@@ -70,7 +70,12 @@
       "application": "app.example.com"
     },
     "application": {
-      "port": 80
+      "port": 80,
+      "autoScaling": {
+        "minCapacity": 1,
+        "maxCapacity": 2,
+        "cpuTargetValue": 70
+      }
     }
   }
 }
