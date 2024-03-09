@@ -1,4 +1,4 @@
-import { aws_ssm as ssm } from 'aws-cdk-lib'
+import { Arn, aws_ssm as ssm } from 'aws-cdk-lib'
 
 import type { Context } from '../types/context'
 import type { Stack } from 'aws-cdk-lib'
@@ -48,6 +48,17 @@ export class SsmParameterStore {
 
   parameterName(id: SsmParameterId) {
     return `/${this.#serviceName}/deployments/${ssmParameterNameSuffix[id]}`
+  }
+
+  parameterArn(id: SsmParameterId) {
+    return Arn.format(
+      {
+        service: 'ssm',
+        resource: 'parameter',
+        resourceName: this.parameterName(id).replace(/^\//, ''),
+      },
+      this.#stack,
+    )
   }
 
   get #description() {
