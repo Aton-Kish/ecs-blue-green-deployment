@@ -357,7 +357,7 @@ export class ReleasePipelineStack extends Stack {
         connectionArn: codeStarConnectionGitHub.attrConnectionArn,
         owner: props.context.pipeline.github.owner,
         repo: props.context.pipeline.github.repo,
-        branch: 'feature/init',
+        branch: 'main',
       })
     const codePipelineBuildAction = new codepipelineActions.CodeBuildAction({
       actionName: 'build',

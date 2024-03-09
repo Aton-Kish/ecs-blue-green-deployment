@@ -782,7 +782,7 @@ artifacts:
                   "Version": "1",
                 },
                 "Configuration": {
-                  "BranchName": "feature/init",
+                  "BranchName": "main",
                   "ConnectionArn": {
                     "Fn::GetAtt": [
                       "CodeStarConnectionGitHub",
