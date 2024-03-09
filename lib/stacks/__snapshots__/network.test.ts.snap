@@ -254,7 +254,7 @@ exports[`NetworkStack snapshot test 1`] = `
           "rules_to_suppress": [
             {
               "id": "AwsSolutions-VPC7",
-              "reason": "vpc flow logs is not required",
+              "reason": "VPC Flow Logs is not required",
             },
           ],
         },

@@ -60,7 +60,7 @@ exports[`LoadBalancerStack snapshot test 1`] = `
           "rules_to_suppress": [
             {
               "id": "AwsSolutions-ELB2",
-              "reason": "alb access logging is not required",
+              "reason": "ALB access logging is not required",
             },
           ],
         },

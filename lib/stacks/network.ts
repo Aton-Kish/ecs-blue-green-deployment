@@ -59,7 +59,7 @@ export class NetworkStack extends Stack {
     NagSuppressions.addResourceSuppressions(vpc, [
       {
         id: 'AwsSolutions-VPC7',
-        reason: 'vpc flow logs is not required',
+        reason: 'VPC Flow Logs is not required',
       },
     ])
 
