@@ -126,7 +126,10 @@ export class LoadBalancerStack extends Stack {
     })
 
     NagSuppressions.addResourceSuppressions(alb, [
-      { id: 'AwsSolutions-ELB2', reason: 'alb access logging is not required' },
+      {
+        id: 'AwsSolutions-ELB2',
+        reason: 'alb access logging is not required',
+      },
     ])
 
     this.#ssmParameterStore.createStringParameter('AlbArn', alb.loadBalancerArn)

@@ -57,7 +57,10 @@ export class NetworkStack extends Stack {
     }
 
     NagSuppressions.addResourceSuppressions(vpc, [
-      { id: 'AwsSolutions-VPC7', reason: 'vpc flow logs is not required' },
+      {
+        id: 'AwsSolutions-VPC7',
+        reason: 'vpc flow logs is not required',
+      },
     ])
 
     this.#ssmParameterStore.createStringParameter('VpcId', vpc.vpcId)
@@ -122,7 +125,10 @@ export class NetworkStack extends Stack {
     )
 
     NagSuppressions.addResourceSuppressions(securityGroupAlb, [
-      { id: 'AwsSolutions-EC23', reason: 'allow HTTPS access from internet' },
+      {
+        id: 'AwsSolutions-EC23',
+        reason: 'allow HTTPS access from internet',
+      },
     ])
 
     this.#ssmParameterStore.createStringParameter(

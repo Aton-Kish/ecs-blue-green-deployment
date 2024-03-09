@@ -93,7 +93,13 @@ export class EcsSetupStack extends Stack {
     )
 
     NagSuppressions.addResourceSuppressions(iamRoleEcsTaskExecution, [
-      { id: 'AwsSolutions-IAM4', reason: 'use recommended policy' },
+      {
+        id: 'AwsSolutions-IAM4',
+        appliesTo: [
+          'Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy',
+        ],
+        reason: 'use recommended policy',
+      },
     ])
 
     this.#ssmParameterStore.createStringParameter(

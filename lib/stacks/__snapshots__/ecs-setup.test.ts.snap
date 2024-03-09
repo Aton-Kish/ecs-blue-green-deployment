@@ -59,6 +59,9 @@ exports[`EcsSetupStack snapshot test 1`] = `
         "cdk_nag": {
           "rules_to_suppress": [
             {
+              "applies_to": [
+                "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+              ],
               "id": "AwsSolutions-IAM4",
               "reason": "use recommended policy",
             },
