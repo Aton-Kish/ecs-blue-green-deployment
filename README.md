@@ -100,6 +100,25 @@ corepack pnpm cdk diff EcsAutoScalingStack
 corepack pnpm cdk deploy EcsAutoScalingStack
 ```
 
+### ecspressoでECS Blue/Greenデプロイのためのタスク定義を生成する
+
+```shell
+export ECSPRESSO_AWS_REGION=$(aws configure get region)
+export ECSPRESSO_ECS_CLUSTER_NAME=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecs-cluster-name")
+export ECSPRESSO_ECS_SERVICE_NAME=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecs-service-name-application")
+
+mkdir -p codedeploy
+ecspresso --config ecspresso/ecspresso.yaml render taskdef | jq '.containerDefinitions[0].image |= "<IMAGE>"' | jq 'del(.ipcMode, .pidMode)' > codedeploy/taskdef.json
+```
+
+環境変数を削除する場合は以下のコマンドを実行します:
+
+```shell
+unset ECSPRESSO_AWS_REGION
+unset ECSPRESSO_ECS_CLUSTER_NAME
+unset ECSPRESSO_ECS_SERVICE_NAME
+```
+
 ## testing
 
 スナップショットを実行します:

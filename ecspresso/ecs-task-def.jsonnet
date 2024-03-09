@@ -18,7 +18,7 @@ local serviceName = cdkJson.context.serviceName;
   containerDefinitions: [
     {
       name: 'application',
-      image: '{{ ssm `/%(serviceName)s/deployments/ecr-repository-uri` }}:{{ must_env `ECSPRESSO_IMAGE_TAG` }}' % { serviceName: serviceName },
+      image: '{{ ssm `/%(serviceName)s/deployments/ecr-repository-uri` }}:{{ env `ECSPRESSO_IMAGE_TAG` `latest` }}' % { serviceName: serviceName },
       essential: true,
       portMappings: [
         {

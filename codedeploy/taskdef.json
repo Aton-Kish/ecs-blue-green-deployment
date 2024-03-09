@@ -1,0 +1,36 @@
+{
+  "containerDefinitions": [
+    {
+      "cpu": 0,
+      "essential": true,
+      "image": "<IMAGE>",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "ecs-blue-green-deployment-ecs-setup-stack-LogGroupApplicationFC75F630-Do899bxjVAvG",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "name": "application",
+      "portMappings": [
+        {
+          "appProtocol": "http",
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "cpu": "256",
+  "executionRoleArn": "arn:aws:iam::382768125421:role/ecs-blue-green-deployment-IamRoleEcsTaskExecutionE8-V7aKtG1y7ukC",
+  "family": "ecs-blue-green-deployment-application",
+  "memory": "512",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "taskRoleArn": "arn:aws:iam::382768125421:role/ecs-blue-green-deployment-ec-IamRoleEcsTaskAE9D7A9B-xM2L3IMDlo6N"
+}
