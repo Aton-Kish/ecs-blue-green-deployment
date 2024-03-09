@@ -27,6 +27,8 @@ const ssmParameterNameSuffix = {
   IamRoleArnEcsTask: 'iam-role-arn-ecs-task',
   IamRoleArnEcsTaskExecution: 'iam-role-arn-ecs-task-execution',
   LogGroupNameApplication: 'log-group-name-application',
+  CodeDeployApplicationName: 'codedeploy-application-name',
+  CodeDeployDeploymentGroupName: 'codedeploy-deployment-group-name',
 } as const
 export type SsmParameterId = keyof typeof ssmParameterNameSuffix
 
@@ -43,7 +45,7 @@ export class SsmParameterStore {
     this.#serviceName = serviceName
   }
 
-  #parameterName(id: SsmParameterId) {
+  parameterName(id: SsmParameterId) {
     return `/${this.#serviceName}/deployments/${ssmParameterNameSuffix[id]}`
   }
 
@@ -53,7 +55,7 @@ export class SsmParameterStore {
 
   createStringParameter(id: SsmParameterId, value: string) {
     return new ssm.StringParameter(this.#stack, `SsmStringParameter${id}`, {
-      parameterName: this.#parameterName(id),
+      parameterName: this.parameterName(id),
       description: this.#description,
       stringValue: value,
     })
@@ -64,7 +66,7 @@ export class SsmParameterStore {
       this.#stack,
       `SsmStringListParameter${id}`,
       {
-        parameterName: this.#parameterName(id),
+        parameterName: this.parameterName(id),
         description: this.#description,
         stringListValue: value,
       },
@@ -74,14 +76,14 @@ export class SsmParameterStore {
   stringParameter(id: SsmParameterId) {
     return ssm.StringParameter.valueForTypedStringParameterV2(
       this.#stack,
-      this.#parameterName(id),
+      this.parameterName(id),
     )
   }
 
   stringListParameter(id: SsmParameterId) {
     return ssm.StringListParameter.valueForTypedListParameter(
       this.#stack,
-      this.#parameterName(id),
+      this.parameterName(id),
     )
   }
 }
