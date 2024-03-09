@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EcsAutoScalingStack snapshot test 1`] = `
+{
+  "Parameters": {
+    "SsmParameterValueecsbluegreendeploymentdeploymentsecsclusternameC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/ecs-cluster-name",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsecsservicenameapplicationC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/ecs-service-name-application",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ApplicationAutoScalingScalableTarget7382D551": {
+      "Properties": {
+        "MaxCapacity": 2,
+        "MinCapacity": 1,
+        "ResourceId": {
+          "Fn::Join": [
+            "",
+            [
+              "service/",
+              {
+                "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsecsclusternameC96584B6F00A464EAD1953AFF4B05118Parameter",
+              },
+              "/",
+              {
+                "Ref": "SsmParameterValueecsbluegreendeploymentdeploymentsecsservicenameapplicationC96584B6F00A464EAD1953AFF4B05118Parameter",
+              },
+            ],
+          ],
+        },
+        "RoleARN": {
+          "Fn::GetAtt": [
+            "ApplicationAutoScalingScalableTargetRole595B19A7",
+            "Arn",
+          ],
+        },
+        "ScalableDimension": "ecs:service:DesiredCount",
+        "ServiceNamespace": "ecs",
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalableTarget",
+    },
+    "ApplicationAutoScalingScalableTargetRole595B19A7": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "application-autoscaling.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ApplicationAutoScalingTargetTrackingScalingPolicyEcsServiceAverageCpuUtilizationF3F2C610": {
+      "Properties": {
+        "PolicyName": "EcsAutoScalingStackApplicationAutoScalingTargetTrackingScalingPolicyEcsServiceAverageCpuUtilizationD81ACE9D",
+        "PolicyType": "TargetTrackingScaling",
+        "ScalingTargetId": {
+          "Ref": "ApplicationAutoScalingScalableTarget7382D551",
+        },
+        "TargetTrackingScalingPolicyConfiguration": {
+          "PredefinedMetricSpecification": {
+            "PredefinedMetricType": "ECSServiceAverageCPUUtilization",
+          },
+          "TargetValue": 70,
+        },
+      },
+      "Type": "AWS::ApplicationAutoScaling::ScalingPolicy",
+    },
+  },
+}
+`;

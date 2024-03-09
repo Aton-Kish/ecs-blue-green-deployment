@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+
+    "esbenp.prettier-vscode",
+    "Grafana.vscode-jsonnet",
+    "redhat.vscode-yaml",
+    "shardulm94.trailing-spaces",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "unwantedRecommendations": []
+}

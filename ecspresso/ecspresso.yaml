@@ -1,0 +1,14 @@
+region: '{{ must_env `ECSPRESSO_AWS_REGION` }}'
+cluster: '{{ must_env `ECSPRESSO_ECS_CLUSTER_NAME` }}'
+service: '{{ must_env `ECSPRESSO_ECS_SERVICE_NAME` }}'
+service_definition: ecs-service-def.jsonnet
+task_definition: ecs-task-def.jsonnet
+timeout: '10m0s'
+
+{{ $CODE_DEPLOY_APPLICATION_NAME := (env `ECSPRESSO_CODE_DEPLOY_APPLICATION_NAME` ``) }}
+{{ $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME := (env `ECSPRESSO_CODE_DEPLOY_DEPLOYMENT_GROUP_NAME` ``) }}
+{{ if and ($CODE_DEPLOY_APPLICATION_NAME) ($CODE_DEPLOY_DEPLOYMENT_GROUP_NAME) }}
+codedeploy:
+  application_name: '{{ $CODE_DEPLOY_APPLICATION_NAME }}'
+  deployment_group_name: '{{ $CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }}'
+{{ end }}

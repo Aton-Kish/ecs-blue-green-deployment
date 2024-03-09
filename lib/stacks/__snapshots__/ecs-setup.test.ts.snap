@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EcsSetupStack snapshot test 1`] = `
+{
+  "Parameters": {
+    "SsmParameterValueecsbluegreendeploymentdeploymentssubnetidsprivateC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/subnet-ids-private",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentssubnetidspublicC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/subnet-ids-public",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsvpcazsC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/vpc-azs",
+      "Type": "AWS::SSM::Parameter::Value<List<String>>",
+    },
+    "SsmParameterValueecsbluegreendeploymentdeploymentsvpcidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Default": "/ecs-blue-green-deployment/deployments/vpc-id",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "EcrRepository4D7B3EE1": {
+      "DeletionPolicy": "Delete",
+      "Type": "AWS::ECR::Repository",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "EcsCluster97242B84": {
+      "Properties": {
+        "ClusterSettings": [
+          {
+            "Name": "containerInsights",
+            "Value": "enabled",
+          },
+        ],
+      },
+      "Type": "AWS::ECS::Cluster",
+    },
+    "IamRoleEcsTaskAE9D7A9B": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "IamRoleEcsTaskExecutionE8FF15BF": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "applies_to": [
+                "Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+              ],
+              "id": "AwsSolutions-IAM4",
+              "reason": "use recommended policy",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "LogGroupApplicationFC75F630": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "RetentionInDays": 7,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SsmStringParameterEcrRepositoryArn319752FE": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/ecr-repository-arn",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "EcrRepository4D7B3EE1",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterEcrRepositoryUriD7C5D3B1": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/ecr-repository-uri",
+        "Type": "String",
+        "Value": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Fn::Select": [
+                  4,
+                  {
+                    "Fn::Split": [
+                      ":",
+                      {
+                        "Fn::GetAtt": [
+                          "EcrRepository4D7B3EE1",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ".dkr.ecr.",
+              {
+                "Fn::Select": [
+                  3,
+                  {
+                    "Fn::Split": [
+                      ":",
+                      {
+                        "Fn::GetAtt": [
+                          "EcrRepository4D7B3EE1",
+                          "Arn",
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              ".",
+              {
+                "Ref": "AWS::URLSuffix",
+              },
+              "/",
+              {
+                "Ref": "EcrRepository4D7B3EE1",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterEcsClusterName03BB30B8": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/ecs-cluster-name",
+        "Type": "String",
+        "Value": {
+          "Ref": "EcsCluster97242B84",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterEcsServiceNameApplicationF82A1A97": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/ecs-service-name-application",
+        "Type": "String",
+        "Value": "ecs-blue-green-deployment-application",
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterIamRoleArnEcsTaskD7C54ADB": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/iam-role-arn-ecs-task",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "IamRoleEcsTaskAE9D7A9B",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterIamRoleArnEcsTaskExecutionA915C802": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/iam-role-arn-ecs-task-execution",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "IamRoleEcsTaskExecutionE8FF15BF",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+    "SsmStringParameterLogGroupNameApplication1B06C9E4": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/log-group-name-application",
+        "Type": "String",
+        "Value": {
+          "Ref": "LogGroupApplicationFC75F630",
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
+  },
+}
+`;
