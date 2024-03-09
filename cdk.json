@@ -76,6 +76,12 @@
         "maxCapacity": 2,
         "cpuTargetValue": 70
       }
+    },
+    "pipeline": {
+      "github": {
+        "owner": "Aton-Kish",
+        "repo": "ecs-blue-green-deployment"
+      }
     }
   }
 }

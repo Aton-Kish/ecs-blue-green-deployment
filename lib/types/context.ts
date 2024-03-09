@@ -3,6 +3,7 @@ export interface Context {
   network: ContextNetwork
   domainName: ContextDomainName
   application: ContextApplication
+  pipeline: ContextPipeline
 }
 
 export interface ContextNetwork {
@@ -26,4 +27,13 @@ export interface ContextApplicationAutoScaling {
   minCapacity: number
   maxCapacity: number
   cpuTargetValue: number
+}
+
+export interface ContextPipeline {
+  github: ContextPipelineGitHub
+}
+
+export interface ContextPipelineGitHub {
+  owner: string
+  repo: string
 }
