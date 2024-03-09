@@ -119,6 +119,18 @@ unset ECSPRESSO_ECS_CLUSTER_NAME
 unset ECSPRESSO_ECS_SERVICE_NAME
 ```
 
+### CDKで`ReleasePipelineStack`をデプロイする
+
+```shell
+corepack pnpm cdk synth ReleasePipelineStack
+corepack pnpm cdk diff ReleasePipelineStack
+corepack pnpm cdk deploy ReleasePipelineStack
+```
+
+#### CodePipelineとGitHubを接続する
+
+[AWSマネジメントコンソール](https://console.aws.amazon.com/codesuite/settings/connections)からGitHubとの接続を完了してください。
+
 ## testing
 
 スナップショットを実行します:
