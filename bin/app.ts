@@ -9,6 +9,7 @@ import { EcsAutoScalingStack } from '../lib/stacks/ecs-auto-scaling'
 import { EcsSetupStack } from '../lib/stacks/ecs-setup'
 import { LoadBalancerStack } from '../lib/stacks/load-balancer'
 import { NetworkStack } from '../lib/stacks/network'
+import { ReleasePipelineStack } from '../lib/stacks/release-pipeline'
 
 import type { Context } from '../lib/types/context'
 
@@ -20,6 +21,7 @@ const context: Context = {
   network: app.node.getContext('network'),
   domainName: app.node.getContext('domainName'),
   application: app.node.getContext('application'),
+  pipeline: app.node.getContext('pipeline'),
 }
 
 new NetworkStack(app, 'NetworkStack', {
@@ -42,6 +44,12 @@ new EcsSetupStack(app, 'EcsSetupStack', {
 
 new EcsAutoScalingStack(app, 'EcsAutoScalingStack', {
   stackName: `${context.serviceName}-ecs-auto-scaling-stack`,
+  context,
+  synthesizer: new CliCredentialsStackSynthesizer(),
+})
+
+new ReleasePipelineStack(app, 'ReleasePipelineStack', {
+  stackName: `${context.serviceName}-release-pipeline-stack`,
   context,
   synthesizer: new CliCredentialsStackSynthesizer(),
 })
