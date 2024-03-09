@@ -35,6 +35,10 @@ export class EcsSetupStack extends Stack {
     })
 
     this.#ssmParameterStore.createStringParameter(
+      'EcrRepositoryArn',
+      ecrRepository.repositoryArn,
+    )
+    this.#ssmParameterStore.createStringParameter(
       'EcrRepositoryUri',
       ecrRepository.repositoryUri,
     )

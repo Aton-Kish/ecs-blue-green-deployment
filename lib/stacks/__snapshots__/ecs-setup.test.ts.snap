@@ -103,6 +103,20 @@ exports[`EcsSetupStack snapshot test 1`] = `
       "Type": "AWS::Logs::LogGroup",
       "UpdateReplacePolicy": "Delete",
     },
+    "SsmStringParameterEcrRepositoryArn319752FE": {
+      "Properties": {
+        "Description": "created by EcsSetupStack",
+        "Name": "/ecs-blue-green-deployment/deployments/ecr-repository-arn",
+        "Type": "String",
+        "Value": {
+          "Fn::GetAtt": [
+            "EcrRepository4D7B3EE1",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::SSM::Parameter",
+    },
     "SsmStringParameterEcrRepositoryUriD7C5D3B1": {
       "Properties": {
         "Description": "created by EcsSetupStack",

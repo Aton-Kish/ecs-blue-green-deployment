@@ -21,6 +21,7 @@ const ssmParameterNameSuffix = {
   AlbListenerArnTest: 'alb-listener-arn-test',
   AlbTargetGroupArnBlue: 'alb-target-group-arn-blue',
   AlbTargetGroupArnGreen: 'alb-target-group-arn-green',
+  EcrRepositoryArn: 'ecr-repository-arn',
   EcrRepositoryUri: 'ecr-repository-uri',
   EcsClusterName: 'ecs-cluster-name',
   EcsServiceNameApplication: 'ecs-service-name-application',
