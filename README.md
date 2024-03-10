@@ -1,5 +1,7 @@
 # ECS Blue/Green deployment
 
+![architecture](docs/images/architecture.drawio.svg)
+
 ## セットアップ
 
 Requirements:
