@@ -1,5 +1,7 @@
 # ECS Blue/Green deployment
 
+ECS Blue/GreenデプロイによってリリースするWebアプリケーションの環境構築サンプルです。
+
 ![architecture](docs/images/architecture.drawio.svg)
 
 ## セットアップ
@@ -26,6 +28,16 @@ corepack pnpm cdk bootstrap
 
 ### CDKで`NetworkStack`をデプロイする
 
+作成されるリソース
+
+- VPC
+- Subnet (Public)
+- Subnet (Private)
+- NAT Gateway
+- Security Group (ALB)
+- Security Group (ECS)
+- Route 53 Hosted Zone
+
 ```shell
 corepack pnpm cdk synth NetworkStack
 corepack pnpm cdk diff NetworkStack
@@ -43,6 +55,16 @@ aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_N
 
 ### CDKで`LoadBalancerStack`をデプロイする
 
+作成されるリソース
+
+- ALB
+- ALB Target Group (Blue)
+- ALB Target Group (Green)
+- ALB Listener (Prod)
+- ALB Listener (Test)
+- ACM Certificate (for ALB)
+- Route 53 Record Set (for ALB)
+
 ```shell
 corepack pnpm cdk synth LoadBalancerStack
 corepack pnpm cdk diff LoadBalancerStack
@@ -50,6 +72,14 @@ corepack pnpm cdk deploy LoadBalancerStack
 ```
 
 ### CDKで`EcsSetupStack`をデプロイする
+
+作成されるリソース
+
+- ECR Repository (for Application)
+- ECS Cluster
+- IAM Role (ECS Task)
+- IAM Role (ECS Task Execution)
+- CloudWatch Logs Log Group (for Application)
 
 ```shell
 corepack pnpm cdk synth EcsSetupStack
@@ -75,6 +105,10 @@ docker image push "${ECR_REPOSITORY_URI}:${IMAGE_TAG}"
 
 ### ecspressoでECSサービスをデプロイする
 
+作成されるリソース
+
+- ECS Service (for Application)
+
 ```shell
 export ECSPRESSO_AWS_REGION=$(aws configure get region)
 export ECSPRESSO_ECS_CLUSTER_NAME=$(aws ssm get-parameter --query Parameter.Value --output text --name "/${SERVICE_NAME}/deployments/ecs-cluster-name")
@@ -95,6 +129,10 @@ unset ECSPRESSO_IMAGE_TAG
 ```
 
 ### CDKで`EcsAutoScalingStack`をデプロイする
+
+作成されるリソース
+
+- Application Auto Scaling (for ECS Service)
 
 ```shell
 corepack pnpm cdk synth EcsAutoScalingStack
@@ -123,6 +161,13 @@ unset ECSPRESSO_ECS_SERVICE_NAME
 
 ### CDKで`ReleasePipelineStack`をデプロイする
 
+作成されるリソース
+
+- CodePipeline
+- CodeBuild
+- CodeDeploy
+- CloudWatch Logs Log Group (for CodeBuild)
+
 ```shell
 corepack pnpm cdk synth ReleasePipelineStack
 corepack pnpm cdk diff ReleasePipelineStack
@@ -133,7 +178,19 @@ corepack pnpm cdk deploy ReleasePipelineStack
 
 [AWSマネジメントコンソール](https://console.aws.amazon.com/codesuite/settings/connections)からGitHubとの接続を完了してください。
 
-## testing
+## リリース
+
+mainブランチに対する任意のgitタグでリリースパイプラインがトリガーされます。
+
+実行例:
+
+```shell
+git checkout main
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+## テスト
 
 スナップショットを実行します:
 
